@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace= "com.db.ssm.dao.MenuDao">
+    <!--查询菜单信息-->
+    <select id="findObjects" resultType="map">
+        select m.*,p.name parentName
+        from sys_menus m left join sys_menus p
+        on m.parentId = p.id
+    </select>
+
+    <!--根据id统计子菜单-->
+    <select id="query"  resultType="int">
+        select count(*) from sys_menus where parentId = #{id}
+    </select>
+
+    <!--根据id删除菜单-->
+    <delete id="deleteObject" >
+        delete from sys_menus where id = #{id}
+    </delete>
+
+    <!--修改菜单信息-->
+    <select id="findZtreeMenuNodes" resultType="com.db.ssm.common.vo.Node">
+      select id ,name,parentId from sys_menus
+    </select>
+
+    <!--添加菜单信息-->
+    <insert id="insertMenu" parameterType="com.db.ssm.dao.MenuDao">
+          insert into sys_menus
+          (name,url,type,sort,note,parentId,permission,
+            createdTime,modifiedTime,createdUser,modifiedUser)
+          values
+          (#{name},#{url},#{type},#{sort},#{note},#{parentId},#{permission},
+            now(),now(),#{createdUser},#{modifiedUser})
+  </insert>
+
+</mapper>
