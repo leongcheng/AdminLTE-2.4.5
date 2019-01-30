@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.ssm.dao.RoleDao">
+    <!--分页SQL-->
+    <sql id="total" >
+        <where>
+            <if test="name != null and name != ''">
+                username  name like concat("%",#{name},"%")
+            </if>
+        </where>
+    </sql>
+    <!--获取总页数-->
+    <select id="rowsCount" resultType="java.lang.Integer">
+        select count(*) from sys_roles
+        <include refid="total"/>
+    </select>
+    <!--下页面信息-->
+    <select id="findPageObject" resultType="com.db.ssm.pojo.Role">
+        select * from sys_roles
+        <include refid="total"/>
+        order by createdTime desc limit #{start},#{pageSize}
+    </select>
+
+    <!--删除角色自身信息-->
+    <delete id="deleteObject" parameterType="int" >
+        delete from sys_roles where id = #{id}
+    </delete>
+
+    <!--新增角色-->
+    <insert id="insertObject" parameterType="com.db.ssm.pojo.Role"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into sys_roles
+        (id,name,note,createdTime,modifiedTime,createdUser,modifiedUser)
+         values
+        (null,#{name},#{note},now(),now(), #{createdUser},#{modifiedUser})
+    </insert>
+
+    <!--修改角色用户查询-->
+    <resultMap id="roleMenu" type="com.db.ssm.vo.RoleMenu">
+        <collection property="menuIds" column="id"
+                    select="com.db.ssm.dao.RoleMenuDao.findMneuIdsByRoleIds">
+        </collection>
+    </resultMap>
+    <select id="findObjectById" resultMap="roleMenu">
+      select  id,name,note from sys_roles where id = #{id}
+    </select>
+
+    <update id="updateRoleIds" parameterType="com.db.ssm.pojo.Role">
+        update sys_roles
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="note != null and note != ''">
+                note = #{note},
+            </if>
+            <if test="modifiedUser != null and modifiedUser != ''">
+                modifiedUser = #{modifiedUser},
+            </if>
+            modifiedTime = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--修改角色查询原数据-->
+    <select id="findObjects" resultType="com.db.ssm.vo.CheckBox">
+        select id , name from sys_roles
+    </select>
+</mapper>

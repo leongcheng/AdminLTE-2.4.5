@@ -4,6 +4,7 @@ import com.db.ssm.common.exception.ServiceException;
 import com.db.ssm.dao.LogDao;
 import com.db.ssm.pojo.Log;
 import com.db.ssm.common.vo.PageObject;
+import com.db.ssm.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,7 @@ public class LogServiceImpl implements LogService {
         pageObject.setPageSize(pageSize);
         pageObject.setPageCount(rowCount);
         pageObject.setRecords(records);
-        pageObject.setPageCount((rowCount - 1) / pageSize + 1);
+        pageObject.setPageCount((rowCount - 1)/pageSize + 1);
         return pageObject;
     }
 

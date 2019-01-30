@@ -5,7 +5,57 @@
 
     <!-- 基于菜单id删除角色和菜单的关系数据 -->
     <delete id="deleteObjectByMenuId">
-        delete from sys_role_menus where menu_id=#{menuId}
+        delete from sys_role_menus where menu_id = #{id}
     </delete>
+
+    <!--删除部门-->
+    <delete id="deleteId" parameterType="int">
+        delete from sys_depts where id = #{id}
+    </delete>
+
+    <!--根据id删除角色与菜单的关系数据-->
+    <delete id="deleteMneuIdsByRoleId" parameterType="int">
+         delete from sys_role_menus where role_id = #{roleId}
+    </delete>
+
+    <!--新增角色菜单信息-->
+    <insert id="insertObjects" >
+        insert into sys_role_menus (role_id,menu_id)
+        values
+        <foreach collection="menuIds" separator="," item="menuId">
+            (#{roleId} ,#{menuId})
+        </foreach>
+    </insert>
+
+    <!--修改角色信息-->
+    <!--1.1对修改的值执行查询-->
+    <select id="findMneuIdsByRoleIds" resultType="java.lang.Integer">
+         select  menu_id from sys_role_menus where role_id = #{id}
+    </select>
+
+    <!--1.2删除原数据-->
+    <delete id="deleteByRoleId" parameterType="int">
+        delete from sys_role_menus where role_id = #{id}
+    </delete>
+
+    <!--1.3修改角色信息-->
+    <!--<insert id="insertObjects" >-->
+        <!--insert into sys_role_menus (role_id,menu_id)-->
+        <!--values-->
+        <!--<foreach collection="menuIds" separator="," item="menuIds">-->
+            <!--(#{roleId},#{menuIds})-->
+        <!--</foreach>-->
+    <!--</insert>-->
+
+
+
+
+
+
+
+
+
+
+
 
 </mapper>

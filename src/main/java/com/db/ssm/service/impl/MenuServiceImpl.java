@@ -5,11 +5,11 @@ import com.db.ssm.dao.MenuDao;
 import com.db.ssm.common.vo.Node;
 import com.db.ssm.dao.RoleMenuDao;
 import com.db.ssm.pojo.Menu;
+import com.db.ssm.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +58,7 @@ public class MenuServiceImpl implements MenuService {
         return rows;
     }
 
-    //修改菜单信息
+    //上级菜单信息
     @Override
     public List<Node> findZtreeMenuNodes() {
         List<Node> list = menuDao.findZtreeMenuNodes();
@@ -67,7 +67,7 @@ public class MenuServiceImpl implements MenuService {
 
     //添加菜单信息
     @Override
-    public void saveObkect(Menu menu) {
+    public int saveObkect(Menu menu) {
         //1.合法验证
         if (menu == null) {
             throw new ServiceException("保存对象不能为空");
@@ -76,16 +76,29 @@ public class MenuServiceImpl implements MenuService {
             throw new ServiceException("菜单名不能为空");
         }
         //2.保存数据
-//        int rows ;
-//        try{
-//            rows =  menuDao.insertMenu(menu);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            throw new ServiceException("保存失败");
-//        }
-//        return rows;
-        menu.setModifiedTime(new Date());
-        menu.setModifiedTime(menu.getCreatedTime());
-        menuDao.insert(menu);
+        int rows ;
+        try{
+            rows =  menuDao.insertMenu(menu);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new ServiceException("保存失败");
+        }
+        return rows;
+    }
+
+    //更新菜单信息
+    @Override
+    public int updateObject(Menu menu) {
+        if(menu == null){
+            throw  new ServiceException("保存对象不能为空");
+        }
+        if(StringUtils.isEmpty(menu.getName())){
+            throw new ServiceException("菜单不能为空");
+        }
+            int rows = menuDao.updateObject(menu);
+        if(rows == 0){
+            throw new ServiceException("记录不存在");
+        }
+        return rows;
     }
 }

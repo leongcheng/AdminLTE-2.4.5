@@ -1,4 +1,4 @@
-package com.db.ssm.service.impl;
+package com.db.ssm.service;
 
 import com.db.ssm.pojo.Log;
 import com.db.ssm.common.vo.PageObject;

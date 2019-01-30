@@ -1,4 +1,4 @@
-package com.db.ssm.service.impl;
+package com.db.ssm.service;
 
 import com.db.ssm.common.vo.Node;
 import com.db.ssm.pojo.Menu;
@@ -20,6 +20,7 @@ public interface MenuService {
     List<Node> findZtreeMenuNodes();
 
     //添加菜单信息
-    void saveObkect(Menu menu);
+    int saveObkect(Menu menu);
 
+    int updateObject(Menu menu);
 }

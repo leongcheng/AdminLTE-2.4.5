@@ -3,14 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace= "com.db.ssm.dao.MenuDao">
     <!--查询菜单信息-->
-    <select id="findObjects" resultType="map">
+    <select id="findObjects" resultType="java.util.Map">
         select m.*,p.name parentName
         from sys_menus m left join sys_menus p
         on m.parentId = p.id
     </select>
 
     <!--根据id统计子菜单-->
-    <select id="query"  resultType="int">
+    <select id="query"  resultType="java.lang.Integer">
         select count(*) from sys_menus where parentId = #{id}
     </select>
 
@@ -19,7 +19,7 @@
         delete from sys_menus where id = #{id}
     </delete>
 
-    <!--修改菜单信息-->
+    <!--上级菜单信息-->
     <select id="findZtreeMenuNodes" resultType="com.db.ssm.common.vo.Node">
       select id ,name,parentId from sys_menus
     </select>
@@ -33,5 +33,16 @@
           (#{name},#{url},#{type},#{sort},#{note},#{parentId},#{permission},
             now(),now(),#{createdUser},#{modifiedUser})
   </insert>
+
+    <!--更新菜单信息-->
+    <update id="updateObject" parameterType="com.db.ssm.pojo.Menu">
+         update sys_menus set
+           name = #{name},type = #{type},
+           sort = #{sort}, url = #{url},
+           parentId = #{parentId},permission = #{permission},
+           modifiedUser = #{modifiedUser},modifiedTime = now()
+        where id = #{id}
+    </update>
+
 
 </mapper>

@@ -37,15 +37,15 @@
     <!--整合SqlSesionFactoryBean对象(通过此对象创建SqlSessionFactory)  -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="DataSource" ref="dataSource"/>
-        <property name="MapperLocations" value="classpath:/mapper/*.xml"/>
-        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/>
         <!--添加别名包  -->
         <property name="typeAliasesPackage" value="com.db.ssm.pojo"/>
     </bean>
     <!-- 配置dao接口扫描，底层会基于dao接口创建这个接口的代理对象，这个代理
          对象内部会通过mybatis访问数据库 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="BasePackage" value="com.db.ssm.dao"/>
+        <property name="basePackage" value="com.db.ssm.dao"/>
         <property name="SqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 </beans>

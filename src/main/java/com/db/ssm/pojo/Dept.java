@@ -1,29 +1,26 @@
 package com.db.ssm.pojo;
 
-
 import com.db.ssm.vo.BasePojo;
 
 /**
- * 菜单管理
- * Created by Administrator on 2019/1/21 0021 下午 8:43
+ * 部门信息
+ * Created by Administrator on 2019/1/22 0022 下午 3:45
  */
-public class Menu extends BasePojo {
-    private static final long serialVersionUID = -3984949352091671663L;
+public class Dept extends BasePojo {
+    private static final long serialVersionUID = -821969250691934494L;
     private Integer id;
-    /**菜单类型(两种:按钮,普通菜单)*/
-    private Integer type = 1;
-    /**菜单名称*/
+    /**部门名称*/
     private String name;
-    /**上级菜单id*/
+    /**部门id*/
     private Integer parentId;
-    /**菜单url*/
-    private String url;
-    /**授权标识(sys:log:delete)*/
-    private String permission;
     /**排序号*/
     private Integer sort;
     /**备注*/
     private String note;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getId() {
         return id;
@@ -31,14 +28,6 @@ public class Menu extends BasePojo {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
     public String getName() {
@@ -55,22 +44,6 @@ public class Menu extends BasePojo {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
     }
 
     public Integer getSort() {
@@ -91,13 +64,10 @@ public class Menu extends BasePojo {
 
     @Override
     public String toString() {
-        return "Menu{" +
+        return "Dept{" +
                 "id=" + id +
-                ", type=" + type +
                 ", name='" + name + '\'' +
                 ", parentId=" + parentId +
-                ", url='" + url + '\'' +
-                ", permission='" + permission + '\'' +
                 ", sort=" + sort +
                 ", note='" + note + '\'' +
                 '}';

@@ -1,9 +1,8 @@
 package com.db.ssm.controller;
 
 import com.db.ssm.common.vo.Node;
-import com.db.ssm.common.vo.SysResult;
 import com.db.ssm.pojo.Menu;
-import com.db.ssm.service.impl.MenuService;
+import com.db.ssm.service.MenuService;
 import com.db.ssm.common.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +35,6 @@ public class MenuController {
         return "sys/menu_edit";
     }
 
-
     //呈现菜单页面
     @RequestMapping("doFindObjects")
     @ResponseBody
@@ -53,7 +51,7 @@ public class MenuController {
         return new JsonResult("删除成功");
     }
 
-    //修改菜单信息
+    //呈现上级菜单信息
     @ResponseBody
     @RequestMapping("doFindZtreeMenuNodes")
     public JsonResult doFindZtreeMenuNodes(){
@@ -64,16 +62,16 @@ public class MenuController {
     //菜单添加操作
     @ResponseBody
     @RequestMapping("doSaveObject")
-    public SysResult doSaveObject(Menu menu) {
-        try{
+    public JsonResult doSaveObject(Menu menu) {
             menuService.saveObkect(menu);
-            return SysResult.oK();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return SysResult.build(201,"添加失败");
+            return new JsonResult("添加成功");
     }
 
     //修改菜单信息
-
+    @RequestMapping("doUpdateObject")
+    @ResponseBody
+    public JsonResult doUpdateObject(Menu menu){
+        menuService.updateObject(menu);
+        return new JsonResult("修改成功");
+    }
 }

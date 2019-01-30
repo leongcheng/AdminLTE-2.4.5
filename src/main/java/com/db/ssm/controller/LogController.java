@@ -2,7 +2,7 @@ package com.db.ssm.controller;
 
 import com.db.ssm.pojo.Log;
 import com.db.ssm.common.vo.PageObject;
-import com.db.ssm.service.impl.LogService;
+import com.db.ssm.service.LogService;
 import com.db.ssm.common.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

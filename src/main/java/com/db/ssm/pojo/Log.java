@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 日志管理
  * Created by Administrator on 2019/1/21 0021 下午 4:34
  */
 public class Log implements Serializable {
+    private static final long serialVersionUID = -7949378435378575361L;
     private Integer id;
     //用户名
     private String username;

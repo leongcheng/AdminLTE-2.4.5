@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="web frontController servlet context" name="MVC frontController servlet context" removed="true">
+          <file>file://$MODULE_DIR$/src/main/resources/spring-configs.xml</file>
+        </fileset>
+        <fileset id="fileset2" name="Spring Application Context (2)" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/spring-configs.xml</file>
+          <file>file://$MODULE_DIR$/target/classes/spring-configs.xml</file>
+          <file>file://$MODULE_DIR$/target/AdminLTE-2.4.5/WEB-INF/classes/spring-configs.xml</file>
+          <file>file://$MODULE_DIR$/target/classes/spring-mvc.xml</file>
+          <file>file://$MODULE_DIR$/target/AdminLTE-2.4.5/WEB-INF/classes/spring-mvc.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-mvc.xml</file>
+          <file>file://$MODULE_DIR$/target/classes/spring-mybatis.xml</file>
+          <file>file://$MODULE_DIR$/target/AdminLTE-2.4.5/WEB-INF/classes/spring-mybatis.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-mybatis.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
+</module>

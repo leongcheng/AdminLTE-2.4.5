@@ -258,11 +258,11 @@ desired effect
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a id="load-dept-id">组织管理</a></li>
+            <li><a id="load-dept-id">部门管理</a></li>
             <li><a id="load-menu-id">菜单管理</a></li>
             <li><a id="load-role-id">角色管理</a></li>
             <li><a id="load-user-id">用户管理</a></li>
-            <li><a id="load-log-id"> 日志管理</a></li>
+            <li><a id="load-log-id">系统日志</a></li>
             <li><a id="load-config-id"> 配置管理</a></li>
           </ul>
         </li>
@@ -421,6 +421,7 @@ desired effect
     	doLoadUI("load-dept-id","dept/doDeptListUI.do");
     	doLoadUI("load-role-id","role/doRoleListUI.do");
     	doLoadUI("load-user-id","user/doUserListUI.do");
+    	doLoadUI("load-config-id","config/doConfigListUI.do");
     });
     function doLoadUI(id,url){
         $("#"+id).click(function(){
