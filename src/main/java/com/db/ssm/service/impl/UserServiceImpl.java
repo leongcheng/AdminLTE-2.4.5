@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         //1.依据条件获取总记录数
         int rowCount = userDao.rowConut(username);
         if (rowCount == 0) {
-            throw new ServiceException("记录不存在");
+            throw new ServiceException("没有用户");
         }
         //2.计算起始位置的值
         int pageSize = 3;
@@ -81,20 +81,42 @@ public class UserServiceImpl implements UserService {
         return rows;
     }
 
+    //新增用户
     @Override
     public int saveObject(User user, Integer[] roleIds) {
-        if (user == null) {
-            throw new ServiceException("用户不能为空");
-        }
+        //用户名称验证
         if (StringUtils.isEmpty(user.getUsername())) {
             throw new ServiceException("用户名不能为空");
+        }else if(!user.getUsername().matches("^[a-zA-Z0-9_-]{4,16}$")){
+            throw new ServiceException("用户名称不正确");
         }
+        //密码验证
+        //String  password = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$_&*+-])[0-9a-zA-Z!@#$_&*+-]{6,18}$";
         if (StringUtils.isEmpty(user.getPassword())) {
             throw new ServiceException("密码不能为空");
+        }else if (!user.getPassword().matches("^[a-zA-Z0-9_.+*-]{6,18}$")) {
+            throw new ServiceException("密码格式不正确");
+        }
+        //邮箱验证
+//        String regex = "^[a-zA-Z0-9_.-]+@(a-zA-Z0-9)+\\.(com|cn)$";//通配邮箱
+//        String regex1 = "^[\\w]+(\\_[\\w]+)+@[\\w]+(\\.[\\w])$";
+        String chechEmail = "^[a-zA-Z0-9_.-]{4,20}+@(126|163|qq|sina|139|189|Yeha|Outlook|aliyun|foxmail|tom)+\\.(com|cn)$";
+        if(StringUtils.isEmpty(user.getEmail())) {
+            throw new ServiceException("E-mail不能为空");
+        }else if(!user.getEmail().matches(chechEmail)){
+            throw new ServiceException("E-mail格式不正确,请重新输入");
+        }
+        //手机号码验证
+        String num = "^1[3|4|5|7|8][0-9]{9}$";
+        if(StringUtils.isEmpty(user.getMobile())){
+            throw new ServiceException("手机号不能为空");
+        }else if(!user.getMobile().matches(num)){
+            throw new ServiceException("输入的手机格式不正确");
         }
         if (roleIds == null || roleIds.length == 0) {
             throw new ServiceException("请为用户配置权限");
         }
+
         //将数据写入数据库中
         String salt = UUID.randomUUID().toString();
         user.setSalt(salt);

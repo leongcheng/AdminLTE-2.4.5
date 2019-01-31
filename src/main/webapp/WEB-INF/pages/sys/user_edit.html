@@ -209,9 +209,7 @@ function doInitPageRoles(data){
 	 var input="<input type='checkbox' name='roleId' value='[id]'>[name]"
 	 for(var i in data){
 		 //记住每次replace时都会产生一个新的字符串对象
-		 var newInput=
-		 input.replace("[id]",data[i].id)
-		 .replace("[name]",data[i].name);
+		 var newInput= input.replace("[id]",data[i].id).replace("[name]",data[i].name);
 		 div.append(newInput)
 	 }
  }
