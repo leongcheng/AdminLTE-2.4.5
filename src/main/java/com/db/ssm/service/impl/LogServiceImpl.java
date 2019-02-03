@@ -1,10 +1,12 @@
 package com.db.ssm.service.impl;
 
+import com.db.ssm.common.annotation.RequestLog;
 import com.db.ssm.common.exception.ServiceException;
 import com.db.ssm.dao.LogDao;
 import com.db.ssm.pojo.Log;
 import com.db.ssm.common.vo.PageObject;
 import com.db.ssm.service.LogService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,35 +19,37 @@ public class LogServiceImpl implements LogService {
     @Autowired
     private LogDao logDao;
 
+    @RequestLog("用户行为记录")
     @Override
     public PageObject<Log> findPageObjects(String username, Integer pageCurrent) {
         //1.验证参数的合法性
         if (pageCurrent == null || pageCurrent < 1) {
             throw new IllegalArgumentException("当前编码不正确");
         }
-        //基于条件查询
-        int rowCount = logDao.getRowCount(username);
+        //基于条件查询总记录数
+        int rowCount = logDao.rowsCount(username);
         //判断查询的结果是否为0
         if (rowCount == 0) {
-            throw new ServiceException("记录不存在");
+            throw new ServiceException("日志记录不存在");
         }
-        //计算当前页码数,当页码值为2时
-        int pageSize = 5;
+        //计算当前页码数
+        int pageSize = 3;
         int startIndex = (pageCurrent - 1) * pageSize;
         //查询当前位置的数据
         List<Log> records =
                 logDao.findPageObjects(username, startIndex, pageSize);
         //对分页信息以及当前页记录封装
         PageObject<Log> pageObject = new PageObject<>();
+        pageObject.setRowCount(rowCount);
         pageObject.setPageCurrent(pageCurrent);
         pageObject.setPageSize(pageSize);
-        pageObject.setPageCount(rowCount);
         pageObject.setRecords(records);
-        pageObject.setPageCount((rowCount - 1)/pageSize + 1);
+        pageObject.setPageCount((rowCount - 1)/pageSize +1);
         return pageObject;
     }
 
     //日志记录删除
+    @RequiresPermissions("sys:log:delete")
     @Override
     public int deleteObjects(Integer... ids) {
        //1.删除前判断参数的合法性

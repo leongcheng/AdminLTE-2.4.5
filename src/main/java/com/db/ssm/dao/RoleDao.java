@@ -17,7 +17,7 @@ public interface RoleDao  {
     int rowsCount(@Param("name") String name);
     //角色分页
     List<Role> findPageObject(@Param("name") String name,
-                              @Param("start") int start,@Param("pageSize") int pageSize);
+                              @Param("startIndex") int startIndex,@Param("pageSize") int pageSize);
 
     //删除角色
     int deleteObject(Integer id);

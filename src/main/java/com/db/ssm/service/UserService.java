@@ -23,4 +23,7 @@ public interface UserService {
 
     //更新保存修改数据
     int updateObject(User user, Integer[] roleIds);
+
+    //删除用户
+    int deleteObjectId(Integer[] id);
 }

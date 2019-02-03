@@ -9,6 +9,7 @@ import com.db.ssm.dao.RoleMenuDao;
 import com.db.ssm.dao.UserRoleDao;
 import com.db.ssm.pojo.Role;
 import com.db.ssm.vo.RoleMenu;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 /**
+ * 角色信息
  * Created by Administrator on 2019/1/22 0022 下午 9:45
  */
 @Service
@@ -38,16 +40,16 @@ public class RoleServiceImpl implements RoleService {
         //1.查询总记录数
         int rowCount = roleDao.rowsCount(name);
         if (rowCount == 0) {
-            throw new ServiceException("记录不存在");
+            throw new ServiceException("角色记录不存在");
         }
         //2.查询当前页信息
         int pageSize = 3;
-        int start = (pageCurrent - 1) * pageSize;
+        int startIndex = (pageCurrent - 1) * pageSize;
         List<Role> records =
-                roleDao.findPageObject(name, start, pageSize);
+                roleDao.findPageObject(name, startIndex, pageSize);
         //3.对分页信息进行封装
         PageObject<Role> pageObject = new PageObject<>();
-        pageObject.setPageCount(rowCount);
+        pageObject.setRowCount(rowCount);
         pageObject.setPageCurrent(pageCurrent);
         pageObject.setPageSize(pageSize);
         pageObject.setRecords(records);

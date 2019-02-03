@@ -91,6 +91,7 @@
    }
    
    function doDeleteObject(){
+       //if(!confirm("您确定删除吗"))
 	   //1.params
 	   var id=$(this).parents("tr").data("id");
 	   var params={"id":id};
@@ -182,7 +183,7 @@
        "<td>"+new Date(row.modifiedTime).toLocaleString()+"</td>"+
        "<td>"+row.createdUser+"</td>"+
        "<td>"+row.modifiedUser+"</td>"+
-       "<td><a class='btn-delete'>删除</a>"+ "&nbsp;<a class='btn-update'>修改</a></td>";
+       "<td><a class='btn btn-success btn-delete'>删除</a>"+ "&nbsp;<a class='btn btn-default btn-update'>修改</a></td>";
        return tds;
    }
 </script>

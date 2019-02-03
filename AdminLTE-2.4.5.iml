@@ -16,6 +16,7 @@
           <file>file://$MODULE_DIR$/target/classes/spring-mybatis.xml</file>
           <file>file://$MODULE_DIR$/target/AdminLTE-2.4.5/WEB-INF/classes/spring-mybatis.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/spring-mybatis.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-aop.xml</file>
         </fileset>
       </configuration>
     </facet>

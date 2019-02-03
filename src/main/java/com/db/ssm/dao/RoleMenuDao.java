@@ -22,11 +22,20 @@ public interface RoleMenuDao {
     //新建角色菜单
     int insertObjects(@Param("roleId") Integer roleId,@Param("menuIds") Integer[] menuIds);
 
-    //修改角色信息
-    List<Integer> findMneuIdsByRoleIds(@Param("roleIds") Integer[] roleIds);
+    //修改角色信息查询
+    List<Integer> findMneuIdsByRoleIds( Integer[] roleIds);
 
     //删除原数据
     int deleteByRoleId(Integer roleId);
-    //插入新修改数据
-//    int insertObjects(@Param("roleId") Integer roleId,@Param("menuIds") Integer[] menuIds);
+
+    List<Integer> findRoleMenuIds(@Param("roleIds")Integer[] integers);
+
+
+
+
+
+
+
+
+
 }

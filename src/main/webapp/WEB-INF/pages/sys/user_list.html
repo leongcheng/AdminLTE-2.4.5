@@ -13,6 +13,7 @@
 							<button type="button" class="btn btn-default btn-search">
                                 <i class="fa fa-search"></i>
 							</button>
+							<button type="button" class="btn btn-success btn-delete">删除</button>
 							<button type="button" class="btn btn-default btn-add">添加</button>
 							<button type="button" class="btn btn-default btn-update">修改</button>
 						</div>
@@ -52,10 +53,38 @@
 	   });
 	   $(".input-group-btn")
 	   .on("click",".btn-search",doQueryObjects)
+	   .on("click",".btn-delete",doDeleteObject)
 	   .on("click",".btn-add,.btn-update",doLoadEditUI);
 	   $("tbody").on("click",".btn-valid",doValidById);
    });
-   
+
+   //基于菜单id执行菜单删除操作
+   function doDeleteObject(){
+       //1.给出提示“确认删除吗”
+       if(!confirm("确认删除吗"))return;
+       //2.获取选中记录的id值
+       var id=doGetCheckedId();
+       //3.对id值进行验证
+       if(!id){
+           alert("请先选择");
+           return;
+       }
+       //4.向服务端发请求执行删除操作
+       //4.1构建请求参数
+       var params={"id":id};
+       //4.2构建请求url
+       var url="user/doDeleteObject.do";
+       //4.3执行异步删除
+       $.post(url,params,function(result){
+           if(result.state==1){
+               alert(result.message);
+               doGetObjects();//重新查询执行刷新
+           }else{
+               alert(result.message);
+           }
+       });
+   }
+
    function doLoadEditUI(){
 	   //1.判定点击的对象
 	   var title;
@@ -74,6 +103,7 @@
 		   doFindObjectById(id,title);
 	   }
    }
+
    function doFindObjectById(id,title){
 	   //1.params
 	   var params={"id":id};
@@ -132,6 +162,7 @@
 	   rowData.valid=valid?0:1;
 	   tr.data("rowData",rowData);
    }
+
    //处理查询按钮事件
    function doQueryObjects(){
 	   $("#pageId").data("pageCurrent",1);
@@ -141,7 +172,7 @@
    function doGetObjects(){
 	   var url="user/doFindPageObjects.do";
 	   var pageCurrent=$("#pageId").data("pageCurrent");
-	   if(!pageCurrent)pageCurrent=1;
+	   if(!pageCurrent)pageCurrent = 1;
 	   var params={"pageCurrent":pageCurrent}
 	   params.username=$("#searchNameId").val().trim();
 	   console.log(params);
@@ -182,7 +213,7 @@
 	     "<td>"+(row.valid?"启用":"禁用")+"</td>"+
 	     "<td>"+new Date(row.createdTime).toLocaleString()+"</td>"+
 	     "<td>"+new Date(row.modifiedTime).toLocaleString()+"</td>"+
-	     "<td><button type='button' class='btn btn-default btn-valid'>"+(row.valid?"禁用":"启用")+"</button></td>"; 
+	     "<td><button type='button' class='btn btn-default btn-valid'>"+(row.valid?"禁用":"启用")+"</button></td>";
        return tds;
    }
 </script>

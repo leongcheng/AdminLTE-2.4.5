@@ -30,7 +30,7 @@
     <!--修改角色信息-->
     <!--1.1对修改的值执行查询-->
     <select id="findMneuIdsByRoleIds" resultType="java.lang.Integer">
-         select  menu_id from sys_role_menus where role_id = #{id}
+         select  menu_id from sys_role_menus where role_id = #{roleId}
     </select>
 
     <!--1.2删除原数据-->
@@ -38,14 +38,12 @@
         delete from sys_role_menus where role_id = #{id}
     </delete>
 
-    <!--1.3修改角色信息-->
-    <!--<insert id="insertObjects" >-->
-        <!--insert into sys_role_menus (role_id,menu_id)-->
-        <!--values-->
-        <!--<foreach collection="menuIds" separator="," item="menuIds">-->
-            <!--(#{roleId},#{menuIds})-->
-        <!--</foreach>-->
-    <!--</insert>-->
+    <select id="findRoleMenuIds" resultType="java.lang.Integer">
+        select  menu_id from sys_role_menus where role_id in
+        <foreach collection="roleIds" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </select>
 
 
 

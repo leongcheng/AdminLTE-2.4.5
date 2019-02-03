@@ -7,6 +7,7 @@ import com.db.ssm.pojo.User;
 import com.db.ssm.service.UserService;
 import com.db.ssm.vo.UserDept;
 import com.db.ssm.dao.UserDao;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         //1.依据条件获取总记录数
         int rowCount = userDao.rowConut(username);
         if (rowCount == 0) {
-            throw new ServiceException("没有用户");
+            throw new ServiceException("没有该用户");
         }
         //2.计算起始位置的值
         int pageSize = 3;
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
             rows = userDao.validById(id, valid, modifiedUser);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServiceException("系统维护中...");
+            throw new ServiceException("服务器繁忙,请稍后再试...");
         }
         if (rows == 0) {
             throw new ServiceException("用户不存在");
@@ -82,6 +83,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //新增用户
+    @RequiresPermissions("sys:user:add")
     @Override
     public int saveObject(User user, Integer[] roleIds) {
         //用户名称验证
@@ -114,7 +116,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("输入的手机格式不正确");
         }
         if (roleIds == null || roleIds.length == 0) {
-            throw new ServiceException("请为用户配置权限");
+            throw new ServiceException("请为用户配置角色");
         }
 
         //将数据写入数据库中
@@ -170,12 +172,30 @@ public class UserServiceImpl implements UserService {
         int rows = 0;
         try {
             rows = userDao.updateObjects(user);
+            //删除原数据插入新数据
             userRoleDao.deleteByUserId(user.getId());
             userRoleDao.insertObjects(user.getId(), roleIds);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServiceException("数据更新失败,稍后请重试!");
         }
+        return rows;
+    }
+
+    //删除用户
+    @Override
+    public int deleteObjectId(Integer[] id) {
+        if(id == null ||id.length ==0 ){
+            throw new ServiceException("请选择需要删除的用户");
+        }
+        int rows = userDao.deleteObject(id);
+        if (rows == 0) {
+            throw new ServiceException("用户不存在");
+        }
+        //根据id删除用户与用户的关系数据
+//        userRoleDao.deleteUserRoleByIds(id);
+//        //根据id删除角色与部门的关系数据
+//        userDeptDao.deleteUserDeptById(id);
         return rows;
     }
 }

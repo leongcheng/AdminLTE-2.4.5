@@ -25,6 +25,10 @@ public class Log implements Serializable {
     //创建时间
     private Date createdTime;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -87,5 +91,19 @@ public class Log implements Serializable {
 
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", operation='" + operation + '\'' +
+                ", method='" + method + '\'' +
+                ", params='" + params + '\'' +
+                ", time=" + time +
+                ", ip='" + ip + '\'' +
+                ", createdTime=" + createdTime +
+                '}';
     }
 }

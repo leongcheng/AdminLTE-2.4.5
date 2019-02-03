@@ -29,7 +29,7 @@ public class MenuController {
         return "sys/menu_list";
     }
 
-    //修改添加弹出页面
+    //修改添加页面
     @RequestMapping("doMenuEditUI")
     public String doMenuEditUI(){
         return "sys/menu_edit";

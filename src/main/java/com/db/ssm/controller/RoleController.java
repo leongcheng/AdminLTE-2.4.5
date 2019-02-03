@@ -4,6 +4,7 @@ import com.db.ssm.common.vo.JsonResult;
 import com.db.ssm.common.vo.PageObject;
 import com.db.ssm.pojo.Role;
 import com.db.ssm.service.RoleService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ public class RoleController {
     }
 
     //角色列表呈现
+
     @ResponseBody
     @RequestMapping("doFindPageObjects")
     public JsonResult doFindPageObjects(String name, Integer pageCurrent){

@@ -20,6 +20,7 @@ public interface UserRoleDao {
     //更新数据删除
     int deleteByUserId(Integer userId);
 
-    //更新插入数据
-//    int updeteInsertObjects(Integer userId, Integer[] roleIds);
+    //删除用户与角色关联信息
+    int deleteUserRoleByIds(Integer[] userId);
+
 }

@@ -44,7 +44,7 @@
         <input type="password" id="passwordId" name="password" class="form-control" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
-     
+
 
       <div class="row">
         <div class="col-xs-8">
@@ -74,31 +74,31 @@
 <!-- iCheck -->
 <script src="plugins/iCheck/icheck.min.js"></script>
 <script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+        $(".btn").click(doLogin);
     });
-    $(".btn").click(doLogin);
-  });
-  function doLogin(){
-	  var params={
-		 username:$("#usernameId").val(),
-		 password:$("#passwordId").val()
-	  }
-	  var url="user/doLogin.do";
-	  console.log("params",params);
-	  $.post(url,params,function(result){
-		  if(result.state==1){
-			//跳转到indexUI对应的页面
-			location.href="doIndexUI.do?t="+Math.random();
-		  }else{
-			$(".login-box-msg").html(result.message); 
-		  }
-		  return false;//防止刷新时重复提交
-	  });
-  }
+    function doLogin(){
+        var params={
+            username:$("#usernameId").val(),
+            password:$("#passwordId").val()
+        }
+        var url="user/doLogin.do";
+        console.log("params",params);
+        $.post(url,params,function(result){
+            if(result.state==1){
+                //跳转到indexUI对应的页面
+                location.href="doIndexUI.do?t="+Math.random();
+            }else{
+                $(".login-box-msg").html(result.message);
+            }
+            return false;//防止刷新时重复提交
+        });
+    }
 </script>
 </body>
 </html>

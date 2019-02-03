@@ -3,10 +3,11 @@ package com.db.ssm.common.Utli;
 import com.db.ssm.common.vo.PageObject;
 import java.util.List;
 
+/**
+ * 分页数据
+ */
 public class PageUtil {
-	public static <T>PageObject<T> pageObject(
-	    		      int rowCount,List<T> records,
-	    		      int pageCurrent,int pageSize){
+	public static <T>PageObject<T> pageObject(int rowCount,List<T> records, int pageCurrent,int pageSize){
 	    	PageObject<T> pageObject = new PageObject<>();
 			pageObject.setRowCount(rowCount);
 			pageObject.setRecords(records);

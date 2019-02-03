@@ -3,44 +3,43 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.db.ssm.dao.LogDao">
 
-    <!-- mybatis中通过sql标签定义SQL共性 -->
-    <sql id="queryWhereId">
+    <!--分页SQL-->
+    <sql id="total" >
         <where>
-            <if test="username!=null and username!=''">
-                username like concat('%',#{username},'%')
+            <if test="username != null and username != ''">
+                username like concat("%",#{username},"%")
             </if>
         </where>
     </sql>
-
-    <!-- 分页查询当前页记录 -->
-    <select id="findPageObjects" resultType="com.db.ssm.pojo.Log">
-        select *from sys_logs
-        <include refid="queryWhereId"/>
-        order by createdTime desc
-        limit #{startIndex},#{pageSize}
-    </select>
-
-    <!-- 按条件统计总记录数 -->
-    <select id="getRowCount" resultType="int">
+    <!--获取总页数-->
+    <select id="rowsCount" resultType="java.lang.Integer">
         select count(*) from sys_logs
-        <include refid="queryWhereId"/>
+        <include refid="total"/>
+    </select>
+    <!--统计总记录数-->
+    <select id="findPageObjects" resultType="com.db.ssm.pojo.Log">
+        select * from sys_logs
+        <include refid="total"/>
+        order by createdTime desc limit #{startIndex},#{pageSize}
     </select>
 
-    
+
+
     <!--删除日志记录-->
     <delete id="deleteObjects">
         delete from sys_logs where id in
-        <foreach collection="ids"
-                 open="("
-                 separator=","
-                 close=")"
-                 item="item">
+        <foreach collection="ids" open="(" separator="," close=")" item="item">
             #{item}
         </foreach>
     </delete>
 
-
-
+    <!--`日志添加-->
+    <insert id="insertObject" >
+        insert into sys_logs
+        (username,operation,method,params,time,ip,createdTime)
+        values
+        (#{username},#{operation},#{method},#{params},#{time},#{ip},#{createdTime})
+    </insert>
 
 
 </mapper>

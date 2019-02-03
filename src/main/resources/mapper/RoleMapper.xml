@@ -15,11 +15,11 @@
         select count(*) from sys_roles
         <include refid="total"/>
     </select>
-    <!--下页面信息-->
+    <!--统计总记录数-->
     <select id="findPageObject" resultType="com.db.ssm.pojo.Role">
         select * from sys_roles
         <include refid="total"/>
-        order by createdTime desc limit #{start},#{pageSize}
+        order by createdTime desc limit #{startIndex},#{pageSize}
     </select>
 
     <!--删除角色自身信息-->

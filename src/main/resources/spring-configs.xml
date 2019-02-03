@@ -28,6 +28,7 @@
        <context:component-scan base-package="com.db"/>
        <import resource="classpath:spring-mvc.xml"/>
        <import resource="classpath:spring-mybatis.xml"/>
+       <import resource="classpath:spring-shiro.xml"/>
        <!-- 启用AOP注解应用 -->
        <aop:aspectj-autoproxy/>
        <!-- 配置spring中声明式事务管理 -->
