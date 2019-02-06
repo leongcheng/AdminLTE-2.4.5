@@ -1,20 +1,23 @@
 package com.db.ssm.common.exception;
-
 /**
- * Created by Administrator on 2019/1/20 0020 下午 8:54
+ * 自定义异常：目的是为了对异常信息进行更加精确的描述
+ * @author ta
  */
-public class ServiceException extends RuntimeException{
-    private static final long serialVersionUID = 4845115428381042360L;
+public class ServiceException extends RuntimeException {
 
-    public ServiceException(){
+    public ServiceException() {
         super();
     }
+
+    public ServiceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+
     public ServiceException(String message) {
         super(message);
     }
+
     public ServiceException(Throwable cause) {
         super(cause);
     }
-
-
 }

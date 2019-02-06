@@ -32,7 +32,7 @@
           values
           (#{name},#{url},#{type},#{sort},#{note},#{parentId},#{permission},
             now(),now(),#{createdUser},#{modifiedUser})
-  </insert>
+    </insert>
 
     <!--更新菜单信息-->
     <update id="updateObject" parameterType="com.db.ssm.pojo.Menu">

@@ -17,6 +17,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -27,7 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 /**
- * 用户认证
+ * 用户认证与授权
  * Created by Administrator on 2019/1/31 0031 下午 8:17
  */
 @Service
@@ -52,21 +53,21 @@ public class ShiroUserRealm extends AuthorizingRealm {
        //设置加密算法
         credentialsMatcher1.setHashAlgorithmName("MD5");
         //设置加密次数
-        credentialsMatcher1.setHashIterations(1);
+        credentialsMatcher1.setHashIterations(1);//默认可不写
         super.setCredentialsMatcher(credentialsMatcher1);
     }
     /**
-     *此方法是获取用户的信息认证
+     *获取用户的信息认证
      * @param token 用户身份认证
      * @return  身份信息认证
      * @throws AuthenticationException 认证相关异常
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token){
         //获取客户端提交的用户信息
         UsernamePasswordToken userToken = (UsernamePasswordToken) token;
         String username = userToken.getUsername();
-        //验证客户端登入信息
+        //验证用户信息
         User user = userDao.findUserByUserName(username);
         //验证用户信息是否存在
         if(user == null){
@@ -74,17 +75,17 @@ public class ShiroUserRealm extends AuthorizingRealm {
         }
         //验证用户权限是否被禁用
         if(user.getValid() == 0){
-            throw new LockedAccountException("用户已被禁用,无法访问");
+            throw new LockedAccountException();
         }
         //对用户信息进行封装
         ByteSource credentialsSalt = ByteSource.Util.bytes(user.getSalt());
-        SimpleAuthenticationInfo authenticationInfo =
+        SimpleAuthenticationInfo info =
                 new SimpleAuthenticationInfo(user, user.getPassword(),credentialsSalt, this.getName());
         //返回认证管理器
-        return authenticationInfo;
+        return info;
     }
     /**
-     * 执行授权,此方法用于获取用户权限信息
+     * 获取用户授权信息
      * */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -94,13 +95,13 @@ public class ShiroUserRealm extends AuthorizingRealm {
         //2.基于用户id获取用户拥有的角色(sys_user_roles)
         List<Integer> roleIds = userRoleDao.findRoleIdsByUserId(user.getId());
         if(roleIds == null||roleIds.size()==0){
-            throw new AuthenticationException();
+            throw new AuthorizationException();
         }
         //3.基于角色ID查找菜单ID(sys_role_menus)
         Integer[] array = {};
         List<Integer> menuIds = roleMenuDao.findRoleMenuIds(roleIds.toArray(array));
         if(menuIds == null||menuIds.size() == 0){
-            throw new AuthenticationException();
+            throw new AuthorizationException();
         }
         //4.基于菜单ID查找权限标识
         List<String> permissions = menuDao.findPermissions(menuIds.toArray(array));

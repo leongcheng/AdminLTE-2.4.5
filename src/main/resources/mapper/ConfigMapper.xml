@@ -11,6 +11,7 @@
             </if>
         </where>
     </sql>
+
     <!--获取当前记录数-->
     <select id="rowsCount" resultType="int">
         select count(*) from sys_configs
@@ -30,4 +31,22 @@
             #{item}
         </foreach>
     </delete>
+
+    <!--添加-->
+    <insert id="insertObject" parameterType="com.db.ssm.pojo.Config">
+        insert into sys_configs
+        (name ,value ,note, createdTime,modifiedTime,createdUser,modifiedUser)
+        values
+        (#{name},#{value},#{note},now(),now(),#{createdUser},#{modifiedUser})
+    </insert>
+
+    <!--修改-->
+    <update id="updateObject" parameterType="com.db.ssm.pojo.Config">
+        update sys_configs set
+        name = #{name},note = #{note},value = #{value},
+         modifiedUser = #{modifiedUser},modifiedTime = now()
+         where id = #{id}
+    </update>
+
+
 </mapper>

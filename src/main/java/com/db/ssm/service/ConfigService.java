@@ -11,4 +11,12 @@ public interface ConfigService {
     PageObject<Config> findPageObject(String name, Integer pageCurrent);
     //删除
     int  deleteObjectId(Integer[] ids);
+    //添加
+    int insertObject(Config config);
+    //修改
+    int updateObject(Config config);
+
+
+
+
 }

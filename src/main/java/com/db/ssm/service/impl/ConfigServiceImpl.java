@@ -9,6 +9,7 @@ import com.db.ssm.service.ConfigService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -53,6 +54,47 @@ public class ConfigServiceImpl implements ConfigService {
             throw new ServiceException("记录不存在");
         }
 
+        return rows;
+    }
+
+    //添加
+    @Override
+    public int insertObject(Config config) {
+        if(config == null){
+            throw new ServiceException("添加内容不能为空");
+        }
+        if(StringUtils.isEmpty(config.getName())){
+            throw new ServiceException("参数名不正确");
+        }
+        if(StringUtils.isEmpty(config.getNote())){
+            throw new ServiceException("参数值不能为空");
+        }
+        if(StringUtils.isEmpty(config.getValue())){
+            throw new ServiceException("描述不能为空");
+        }
+        int rows;
+        try {
+            rows = configDao.insertObject(config);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("保存失败");
+        }
+        return rows;
+    }
+
+    //修改
+    @Override
+    public int updateObject(Config config) {
+        if(StringUtils.isEmpty(config)){
+            throw new ServiceException("资源不能为空");
+        }
+        int rows;
+        try {
+            rows = configDao.updateObject(config);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("修改失败");
+        }
         return rows;
     }
 }

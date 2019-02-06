@@ -16,4 +16,10 @@ public interface ConfigDao {
                                  @Param("pageSize") Integer pageSize);
     //删除信息
     int deleteIds(@Param("ids") Integer[] ids);
+
+    //添加
+    int insertObject(Config config);
+
+    //修改
+    int updateObject(Config config);
 }

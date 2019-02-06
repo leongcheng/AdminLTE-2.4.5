@@ -33,6 +33,7 @@ public class GlobalExceptionHandler {
     public JsonResult doShiroException(ShiroException e){
         e.printStackTrace();
         JsonResult result = new JsonResult();
+        result.setState(0);
         if(e instanceof UnknownAccountException){
             result.setMessage("用户不存在");
         }else if(e instanceof LockedAccountException){

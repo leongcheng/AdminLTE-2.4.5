@@ -1,6 +1,7 @@
 package com.db.ssm.controller;
 
 import com.db.ssm.common.vo.JsonResult;
+import com.db.ssm.pojo.Config;
 import com.db.ssm.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +17,16 @@ public class ConfigController {
 
     @Autowired
     private ConfigService configService;
+
     @RequestMapping("doConfigListUI")
     public String doConfigListUI(){
         return "sys/config_list";
     }
 
+    @RequestMapping("doConfigEditUI")
+    public String doConfigEditUI(){
+        return "sys/config_edit";
+    }
 
     //查询
     @ResponseBody
@@ -35,5 +41,21 @@ public class ConfigController {
     private JsonResult doDeleteObjects(Integer[] ids){
         configService.deleteObjectId(ids);
         return new JsonResult("删除成功");
+    }
+
+    //添加
+    @RequestMapping("doSaveObject")
+    @ResponseBody
+    public JsonResult doSaveObject(Config config){
+        configService.insertObject(config);
+        return new JsonResult("添加成功");
+    }
+
+    //修改
+    @RequestMapping("doUpdateObject")
+    @ResponseBody
+    public JsonResult doUpdateObject(Config config){
+        configService.updateObject(config);
+        return new JsonResult("修改成功");
     }
 }
